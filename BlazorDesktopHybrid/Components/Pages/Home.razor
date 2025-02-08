@@ -1,0 +1,32 @@
+﻿@page "/"
+@using BlazorDesktopHybrid.Auth
+@attribute [AllowAnonymous]
+@inject ExampleAuthenticationStateProvider ExampleAuthenticationStateProvider
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<div>
+    <FluentButton Appearance="Appearance.Accent" @onclick="LoginAsync">Login</FluentButton>
+    <FluentButton Appearance="Appearance.Accent" @onclick="LogoutAsync">Logout</FluentButton>
+</div>
+
+<div>
+    <label for="customRange1" class="form-label">Example range</label>
+    <input type="range" class="form-range" id="customRange1">
+</div>
+
+@code {
+    private async Task LoginAsync()
+    {
+        await ExampleAuthenticationStateProvider.LoginAsync("username", "password");
+    }
+    
+    private async Task LogoutAsync()
+    {
+        await ExampleAuthenticationStateProvider.LogoutAsync();
+    }
+}

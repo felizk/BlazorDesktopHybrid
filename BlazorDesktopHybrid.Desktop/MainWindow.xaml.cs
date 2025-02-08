@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using BlazorDesktopHybrid.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,11 +14,13 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         
+        var appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(BlazorDesktopHybrid));
+
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddWpfBlazorWebView();
         serviceCollection.AddBlazorWebViewDeveloperTools();
         serviceCollection.AddSharedServices();
-        serviceCollection.AddScoped<ILocalStorage, InMemoryUserLocalStorage>();
+        serviceCollection.AddScoped<ILocalStorage, AppDataUserLocalStorage>(x => new AppDataUserLocalStorage(appDataFolder));
         Resources.Add("services", serviceCollection.BuildServiceProvider());
     }
 }
